@@ -35,11 +35,11 @@ def create_short(video: VideoRequest):
         "format": "mp4/best",
         "outtmpl": input_file,
         "quiet": True,
-        "extractor_args": {
-    "youtube": {
-        "pot_bgutil_base_url": [os.getenv("POT_PROVIDER_URL")]
+       "extractor_args": {
+    "youtubepot-bgutilhttp": {
+        "base_url": [os.getenv("POT_PROVIDER_URL")]
     }
-        }
+       }
     }
 
     try:
