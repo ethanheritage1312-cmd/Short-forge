@@ -45,7 +45,7 @@ def create_short(video: VideoRequest):
     "youtubepot-bgutilhttp": {
         "base_url": [os.getenv("POT_PROVIDER_URL")]
     },
-           youtubepot-wpc": {
+           "youtubepot-wpc": {
     "browser_path": ["/opt/render/project/src/.chrome/chrome-linux64/chrome"]
     }
        }
