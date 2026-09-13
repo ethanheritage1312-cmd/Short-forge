@@ -21,8 +21,31 @@ def home():
 
 @app.post("/create-short")
 def create_short(video: VideoRequest):
-    return {
-        "success": True,
-        "message": "Video URL received successfully",
-        "url": video.url
+    ydl_opts = {
+        "quiet": True,
+        "skip_download": True
     }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(video.url, download=False)
+
+        return {
+            "success": True,
+            "title": info.get("title"),
+            "duration": info.get("duration"),
+            "thumbnail": info.get("thumbnail"),
+            "url": video.url
+        }
+
+    except Exception as e:
+        return {
+            "success": False,
+            "message": str(e)
+        }
+
+    
+        
+        
+        
+
