@@ -550,14 +550,21 @@ try {
         })
     });
 
-    const data = await response.json();
-
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("video/mp4")) {
+        const videoBlob = await response.blob();
+        const videoUrl = URL.createObjectURL(videoBlob);
+        message.innerHTML = 'Your Short is ready! <a href="' + videoUrl + '" download="shortforge-short.mp4">Download Short</a>';
+} else {
+        const data = await response.json();
+        message.textContent = data.message || "ShortForge could not create the video.";
+    }
     if (!response.ok) {
         message.textContent = data.detail || "Something went wrong.";
         return;
     }
 
-    message.textContent = "Video received by ShortForge successfully!";
+    
 } catch (error) {
     message.textContent = "Could not connect to ShortForge. Please try again.";
 }
