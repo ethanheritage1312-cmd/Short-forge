@@ -34,7 +34,7 @@ def create_short(video: VideoRequest):
     ydl_opts = {
         "format": "mp4/best",
         "outtmpl": input_file,
-        "quiet": True
+        "quiet": False
     }
 
     try:
