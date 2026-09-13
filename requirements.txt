@@ -3,3 +3,4 @@ uvicorn[standard]
 yt-dlp
 imageio-ffmpeg
 bgutil-ytdlp-pot-provider
+yt-dlp-getpot-wpc
