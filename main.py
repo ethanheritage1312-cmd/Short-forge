@@ -35,6 +35,11 @@ def create_short(video: VideoRequest):
         "format": "mp4/best",
         "outtmpl": input_file,
         "quiet": True,
+        "js_runtimes": {
+    "deno": {
+        "path": "/opt/render/project/src/.deno/bin/deno"
+    }
+},
        "extractor_args": {
     "youtubepot-bgutilhttp": {
         "base_url": [os.getenv("POT_PROVIDER_URL")]
