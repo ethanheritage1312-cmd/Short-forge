@@ -2,6 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import yt_dlp
+import os
+import uuid
+import subprocess
+from fastapi.responses import FileResponse
+import imageio_ffmpeg
 app = FastAPI()
 
 app.add_middleware(
@@ -21,28 +26,64 @@ def home():
 
 @app.post("/create-short")
 def create_short(video: VideoRequest):
+    job_id = str(uuid.uuid4())
+
+    input_file = f"/tmp/{job_id}.mp4"
+    output_file = f"/tmp/{job_id}_short.mp4"
+
     ydl_opts = {
-        "quiet": True,
-        "skip_download": True
+        "format": "mp4/best",
+        "outtmpl": input_file,
+        "quiet": True
     }
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(video.url, download=False)
+            ydl.download([video.url])
 
-        return {
-            "success": True,
-            "title": info.get("title"),
-            "duration": info.get("duration"),
-            "thumbnail": info.get("thumbnail"),
-            "url": video.url
-        }
+        ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+
+        command = [
+            ffmpeg,
+            "-y",
+            "-i", input_file,
+            "-t", "30",
+            "-vf", "scale=1080:-2,crop=1080:1920",
+            "-c:v", "libx264",
+            "-c:a", "aac",
+            output_file
+        ]
+
+        subprocess.run(command, check=True)
+
+        return FileResponse(
+            output_file,
+            media_type="video/mp4",
+            filename="shortforge-short.mp4"
+        )
 
     except Exception as e:
         return {
             "success": False,
             "message": str(e)
         }
+
+    
+        
+        
+    
+
+    
+
+            
+
+        
+            
+        
+        
+            
+            
+    
 
     
         
