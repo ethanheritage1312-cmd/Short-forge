@@ -37,7 +37,12 @@ def create_short(video: VideoRequest):
         "quiet": False,
         "verbose": True,
         "noplaylist": True,
-     }   
+        "extractor_args": {
+            "youtubepot-bgutilhttp": {
+                "base_url": [os.getenv("POT_PROVIDER_URL")]
+            }
+        }
+        }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([video.url])
