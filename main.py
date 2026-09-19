@@ -31,26 +31,13 @@ def create_short(video: VideoRequest):
     input_file = f"/tmp/{job_id}.mp4"
     output_file = f"/tmp/{job_id}_short.mp4"
 
-    ydl_opts = {
-        "format": "mp4/best",
+     ydl_opts = {
+        "format": "best[ext=mp4]/best",
         "outtmpl": input_file,
         "quiet": False,
-"verbose": True,
-        "js_runtimes": {
-    "deno": {
-        "path": "/opt/render/project/src/.deno/bin/deno"
-    }
-},
-       "extractor_args": {
-    "youtubepot-bgutilhttp": {
-        "base_url": [os.getenv("POT_PROVIDER_URL")]
-    },
-           "youtubepot-wpc": {
-    "browser_path": ["/opt/render/project/src/.chrome/chrome-linux64/chrome"]
-    }
-       }
-    }
-
+        "verbose": True,
+        "noplaylist": True,
+     }   
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([video.url])
