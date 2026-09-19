@@ -31,7 +31,7 @@ def create_short(video: VideoRequest):
     input_file = f"/tmp/{job_id}.mp4"
     output_file = f"/tmp/{job_id}_short.mp4"
 
-     ydl_opts = {
+    ydl_opts = {
         "format": "best[ext=mp4]/best",
         "outtmpl": input_file,
         "quiet": False,
