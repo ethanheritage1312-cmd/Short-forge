@@ -1,6 +1,6 @@
 fastapi
 uvicorn[standard]
-yt-dlp
+yt-dlp[default]
 imageio-ffmpeg
 bgutil-ytdlp-pot-provider
 yt-dlp-getpot-wpc
